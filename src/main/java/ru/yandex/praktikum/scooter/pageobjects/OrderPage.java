@@ -1,4 +1,4 @@
-package pageObjects;
+package ru.yandex.praktikum.scooter.pageobjects;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -8,22 +8,22 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class OrderPage {
-    private WebDriver driver;
+    private final WebDriver driver;
 
     // Заголовок формы заказа "Для кого самокат"
-    private By orderFormTittle = By.xpath(".//div[@class='Order_Header__BZXOb'][text()='Для кого самокат']");
+    private final By orderFormTittle = By.xpath(".//div[@class='Order_Header__BZXOb'][text()='Для кого самокат']");
 
     // Поле ввода "Имя"
-    private By nameInput =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Имя']");
+    private final By nameInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Имя']");
 
     // Поле ввода "Фамилия"
-    private By surnameInput =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Фамилия']");
+    private final By surnameInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Фамилия']");
 
     // Поле ввода "Адрес: куда привезти заказ"
-    private By addressInput =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Адрес: куда привезти заказ']");
+    private final By addressInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Адрес: куда привезти заказ']");
 
     // Поле выбора станции метро
-    private By metroStationInput = By.className("select-search__input");
+    private final By metroStationInput = By.className("select-search__input");
 
     // Выбрать станцию
     private By getMetroStationOption(String index) {
@@ -31,46 +31,52 @@ public class OrderPage {
     }
 
     // Поле ввода "Телефон: на него позвонит курьер"
-    private By phoneInput =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Телефон: на него позвонит курьер']");
+    private final By phoneInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='* Телефон: на него позвонит курьер']");
 
     // Кнопка "Далее"
-    private By nextButton = By.className("Button_Middle__1CSJM");
+    private final By nextButton = By.className("Button_Middle__1CSJM");
 
     // Заголовок "Про аренду"
-    private By rentFormTittle = By.xpath(".//div[@class='Order_Header__BZXOb'][text()='Про аренду']");
+    private final By rentFormTittle = By.xpath(".//div[@class='Order_Header__BZXOb'][text()='Про аренду']");
 
     // Поле ввода "Когда привезти самокат"
-    private By rentDataDropdown =  By.xpath(".//div[@class='react-datepicker__input-container']/input[@placeholder='* Когда привезти самокат']");
+    private final By rentDataDropdown = By.xpath(".//div[@class='react-datepicker__input-container']/input[@placeholder='* Когда привезти самокат']");
 
     // Поле выбора срока аренды
-    private By rentTimeDropdown = By.className("Dropdown-placeholder");
+    private final By rentTimeDropdown = By.className("Dropdown-placeholder");
 
     // Срок аренды
     private By getRentTime(String rentTime) {
-        return By.xpath(".//div[@class='Dropdown-option'][text()='" + rentTime +"']");
+        return By.xpath(".//div[@class='Dropdown-option'][text()='" + rentTime + "']");
     }
 
+    // Выбрать цвет самоката: Чекбокс "чёрный жемчуг"
+    public static final By BLACK_COLOUR = By.id("black");
+
+    // Выбрать цвет самоката: Чекбокс "серая безысходность"
+    public static final By GREY_COLOUR = By.id("grey");
+
     // Поле ввода "Комментарий для курьера"
-    private By commentInput =  By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='Комментарий для курьера']");
+    private final By commentInput = By.xpath(".//div[@class='Input_InputContainer__3NykH']/input[@placeholder='Комментарий для курьера']");
 
     // Кнопка "Заказать"
-    private By orderButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text()='Заказать']");
+    private final By orderButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text()='Заказать']");
 
     // Окно подтверждения заказа
-    private By approveOrderModal = By.xpath(".//div[@class='Order_ModalHeader__3FDaJ'][text()='Хотите оформить заказ?']");
+    private final By approveOrderModal = By.xpath(".//div[@class='Order_ModalHeader__3FDaJ'][text()='Хотите оформить заказ?']");
 
     //Кнопка "Да"
-    private By approveOrderButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text()='Да']");
+    private final By approveOrderButton = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text()='Да']");
 
     // Окно "Заказ оформлен"
-    private By approvedOrderModal = By.xpath(".//div[@class='Order_ModalHeader__3FDaJ'][text()='Заказ оформлен']");
+    private final By approvedOrderModal = By.xpath(".//div[@class='Order_ModalHeader__3FDaJ'][text()='Заказ оформлен']");
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public By getOrderFormTittle() {
-       return orderFormTittle;
+        return orderFormTittle;
     }
 
     public void clickOnNameInput() {
@@ -167,4 +173,34 @@ public class OrderPage {
         new WebDriverWait(driver, 10).until(ExpectedConditions.presenceOfElementLocated(approvedOrderModal));
     }
 
+    public void fillInClientForm(String userName, String userSurname, String userAddress, String metroStation, String userPhone) {
+        clickOnNameInput();
+        inputName(userName);
+        clickOnSurnameInput();
+        inputSurname(userSurname);
+        clickOnAddressInput();
+        inputAddress(userAddress);
+        clickOnMetroStationInput();
+        searchMetroStation(metroStation);
+        clickOnPhoneInput();
+        inputPhoneNumber(userPhone);
+        clickOnNextButton();
+    }
+
+    public void fillInRentForm(String rentData, String rentTime, By colour, String comment) {
+        clickOnRentDataDropdown();
+        inputRentData(rentData);
+        clickOnRentTimeInput();
+        selectRentTime(rentTime);
+        clickOnColourCheckbox(colour);
+        clickOnCommentInput();
+        inputComment(comment);
+        clickOnOrderButton();
+    }
+
+    public void approveOrder() {
+        waitForApproveOrderModalToLoad();
+        clickOnApproveOrderButtonButton();
+        waitForApprovedOrderModalToLoad();
+    }
 }
